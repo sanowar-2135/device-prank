@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Device Security Scan</title>
+<style>
+  *{box-sizing:border-box}
+  body{
+    margin:0; min-height:100vh; background:#050805; color:#00ff66;
+    font-family:monospace; display:flex; align-items:center; justify-content:center;
+    padding:20px;
+  }
+  .box{
+    width:min(680px,100%); border:1px solid #00ff66; border-radius:14px;
+    padding:28px 22px; background:rgba(0,15,5,.94);
+    box-shadow:0 0 35px rgba(0,255,102,.15);
+  }
+  .title{font-size:24px;font-weight:bold;margin-bottom:18px}
+  .status{font-size:18px;margin:18px 0}
+  .terminal{
+    min-height:150px; background:#000; border-radius:8px; padding:15px;
+    color:#8affad; line-height:1.65; font-size:13px;
+  }
+  .bar{height:22px;border:1px solid #00ff66;border-radius:20px;overflow:hidden;margin:22px 0 8px}
+  .fill{height:100%;width:0;background:#00ff66;box-shadow:0 0 15px #00ff66;transition:width .15s}
+  .percent{text-align:center;font-size:18px}
+  .final{display:none;text-align:center}
+  .final h1{font-size:34px;margin:10px 0;color:#ff3030;text-shadow:0 0 15px #ff3030}
+  .prank{font-size:22px;color:#00ff66;margin-top:20px}
+  .note{font-size:11px;color:#777;margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+<div class="box">
+  <div id="scan">
+    <div class="title">⚠ DEVICE SECURITY SCAN</div>
+    <div class="status" id="status">Initializing scan...</div>
+    <div class="terminal" id="terminal">
+      &gt; Connecting to device...<br>
+      &gt; Starting diagnostic module...
+    </div>
+    <div class="bar"><div class="fill" id="fill"></div></div>
+    <div class="percent" id="percent">0%</div>
+  </div>
+
+  <div class="final" id="final">
+    <div>⚠ SECURITY ALERT ⚠</div>
+    <h1>ACCESS GRANTED</h1>
+    <div>Device scan completed.</div>
+    <div class="prank">😂 JUST A PRANK! 😂</div>
+    <div class="note">No device was accessed, hacked, or monitored.</div>
+  </div>
+</div>
+
+<script>
+const fill = document.getElementById("fill");
+const percent = document.getElementById("percent");
+const status = document.getElementById("status");
+const terminal = document.getElementById("terminal");
+const scan = document.getElementById("scan");
+const final = document.getElementById("final");
+
+const messages = [
+  "Device detected...",
+  "Analyzing device environment...",
+  "Checking system modules...",
+  "Scanning security status...",
+  "Analyzing system files...",
+  "Verifying device connection...",
+  "Finalizing security scan..."
+];
+
+let p = 0;
+const timer = setInterval(() => {
+  p++;
+  fill.style.width = p + "%";
+  percent.textContent = p + "%";
+
+  if (p % 12 === 0 || p === 1) {
+    const msg = messages[Math.min(Math.floor(p / 15), messages.length - 1)];
+    status.textContent = msg;
+    terminal.innerHTML += "<br>&gt; " + msg;
+    terminal.scrollTop = terminal.scrollHeight;
+  }
+
+  if (p >= 100) {
+    clearInterval(timer);
+    setTimeout(() => {
+      scan.style.display = "none";
+      final.style.display = "block";
+    }, 700);
+  }
+}, 65);
+</script>
+</body>
+</html>
